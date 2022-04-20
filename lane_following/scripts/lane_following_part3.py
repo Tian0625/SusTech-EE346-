@@ -32,12 +32,12 @@ class Follower:
         if corners:
             (rvecs, tvecs, _) = cv2.aruco.estimatePoseSingleMarkers(corners, mlen, K, distortion_para)
             if tvecs[0][0][0] > 0.09 and tvecs[0][0][0] < 0.103:
-                self.twist.linear.x = 0  ##set the velocity to zero to stop
+                self.twist.linear.x = 0 
                 self.twist.angular.z = 0
                 self.cmd_vel_pub.publish(self.twist)
-                print('Stop!!')
+                print('Stop!')
                 time.sleep(10)
-                print('Now go!!')
+                print('go!')
                 time.sleep(2)
 
             corners = None
@@ -88,8 +88,8 @@ class Follower:
 
             self.twist.linear.x = 0.4
             self.twist.angular.z = err/120
-            if abs(err)>16:
-               self.twist.linear.x=0.3
+            if abs(err)>16: # change the velocity according to BEV error
+               self.twist.linear.x=0.3 
                self.twist.angular.z = err/20
             self.cmd_vel_pub.publish(self.twist)
         cv2.imshow("window", image)
